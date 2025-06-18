@@ -316,6 +316,20 @@ async def update_derby_config(config_request: UpdateDerbyConfigRequest):
 async def health_check():
     return {"status": "healthy", "service": "monad-visualizer"}
 
+@app.get("/")
+async def root():
+    return {
+        "service": "Monad Visualizer API",
+        "version": "1.0.0",
+        "endpoints": {
+            "health": "/health",
+            "firehose_stream": "/firehose-stream",
+            "derby_stream": "/derby-stream"
+        },
+        "frontend": "https://monad-viewer-frontend.vercel.app",  # Update this with your actual Vercel URL
+        "documentation": "API Documentation coming soon"
+    }
+
 @app.get("/firehose-stream")
 async def firehose_stream_endpoint(request: Request):
     return StreamingResponse(cityscape_stream_generator(request), media_type="text/event-stream")
