@@ -13,7 +13,6 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from fastapi.staticfiles import StaticFiles
 from hypersync import BlockField, TransactionField, TransactionSelection, ClientConfig, Query, FieldSelection
 from dotenv import load_dotenv
 from pydantic import BaseModel
@@ -76,7 +75,15 @@ async def lifespan(app: FastAPI):
         print_info("SYSTEM", "Application shutdown complete.")
 
 app = FastAPI(lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+
+# Add CORS middleware to allow requests from your Vercel frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Update this with your Vercel domain in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Helper Print Functions ---
 def print_red(msg, file=sys.stderr): print(f"\033[91mERROR: {msg}\033[0m", file=file, flush=True)
@@ -317,7 +324,7 @@ async def firehose_stream_endpoint(request: Request):
 async def derby_stream_endpoint(request: Request):
     return StreamingResponse(derby_stream_generator(request), media_type="text/event-stream")
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# Static files are served from Vercel frontend
 
 # ==========================================================
 # === Main Runner (UNCHANGED)
