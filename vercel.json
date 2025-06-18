@@ -10,10 +10,5 @@
       "src": "/(.*)",
       "dest": "/static/$1"
     }
-  ],
-  "functions": {
-    "static/index.html": {
-      "includeFiles": "static/**"
-    }
-  }
+  ]
 } 
