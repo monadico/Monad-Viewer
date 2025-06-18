@@ -317,6 +317,7 @@ async def health_check():
     return {"status": "healthy", "service": "monad-visualizer"}
 
 @app.get("/")
+@app.head("/")  # Add support for HEAD requests
 async def root():
     return {
         "service": "Monad Visualizer API",
