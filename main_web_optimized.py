@@ -342,6 +342,48 @@ async def derby_stream_endpoint(request: Request):
 # Static files are served from Vercel frontend
 
 # ==========================================================
+# === NFT ANALYTICS ENDPOINTS (NEW - SEPARATE FROM EXISTING CODE) ===
+# ==========================================================
+try:
+    from nft_service import get_network_graph_data, nft_network_service
+    
+    @app.get("/nft-network-graph")
+    async def nft_network_graph_endpoint(
+        limit: int = 1000, 
+        min_shared_holders: int = 10
+    ):
+        """Get NFT network graph data for visualization"""
+        try:
+            data = await get_network_graph_data(limit=limit, min_shared_holders=min_shared_holders)
+            return data
+        except Exception as e:
+            print_red(f"NFT Network Graph Error: {e}")
+            return {"error": str(e)}
+    
+    @app.get("/nft-collection-details/{collection_id}")
+    async def nft_collection_details_endpoint(collection_id: str):
+        """Get detailed information for a specific collection"""
+        try:
+            data = await nft_network_service.get_collection_details(collection_id)
+            return data
+        except Exception as e:
+            print_red(f"NFT Collection Details Error: {e}")
+            return {"error": str(e)}
+    
+    # Backward compatibility endpoint
+    @app.get("/nft-analytics")
+    async def nft_analytics_endpoint(
+        limit: int = 1000, 
+        min_shared_holders: int = 10
+    ):
+        """Legacy endpoint - redirects to network graph"""
+        return await nft_network_graph_endpoint(limit, min_shared_holders)
+    
+    print_info("SYSTEM", "NFT Network Graph endpoints loaded successfully")
+except ImportError:
+    print_yellow("NFT Network service not available - install dependencies with: pip install httpx")
+
+# ==========================================================
 # === Main Runner (UNCHANGED)
 # ==========================================================
 if __name__ == "__main__":

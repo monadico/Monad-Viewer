@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "timestamp": "2025-06-29T09:23:01.910042",
+    "total_collections": 1000,
+    "fetch_time_seconds": 116.89,
+    "api_calls_estimated": 51,
+    "rate_limit_respected": true
+  },
+  "top_10_by_volume": [
+    {
+      "rank": 1,
+      "id": "0xa18e1c7c6e8c663c5d835fffd70ef07b482fe884",
+      "name": "Monadverse: Chapter 10",
+      "symbol": null,
+      "volume_30d": 382365.13486,
+      "volume_all_time": 385804.13486,
+      "floor_price": 347.0,
+      "token_count": "1",
+      "verified": true
+    },
+    {
+      "rank": 2,
+      "id": "0x26c86f2835c114571df2b6ce9ba52296cc0fa6bb",
+      "name": "Lil Chogstars",
+      "symbol": "chogstars",
+      "volume_30d": 257080.9999,
+      "volume_all_time": 1061141.90055,
+      "floor_price": 6500.0,
+      "token_count": "1",
+      "verified": true
+    },
+    {
+      "rank": 3,
+      "id": "0xe8f0635591190fb626f9d13c49b60626561ed145",
+      "name": "Skrumpets",
+      "symbol": "skrumpets",
+      "volume_30d": 236419.11,
+      "volume_all_time": 2335482.42,
+      "floor_price": 11470.0,
+      "token_count": "499",
+      "verified": true
+    },
+    {
+      "rank": 4,
+      "id": "0x45c1652cb9861ef30bd5dcd1ff14c812dac872d0",
+      "name": "Master Frame pass",
+      "symbol": "Master Frame pass ",
+      "volume_30d": 187815.5281,
+      "volume_all_time": 257846.44235,
+      "floor_price": 23.4999,
+      "token_count": "555",
+      "verified": true
+    },
+    {
+      "rank": 5,
+      "id": "0x7370a0a9e9a833bcd071b38fc25184e7afb57aff",
+      "name": "Chog Pass",
+      "symbol": "chog_pass",
+      "volume_30d": 177107.02,
+      "volume_all_time": 305595.02,
+      "floor_price": 45000.0,
+      "token_count": "92",
+      "verified": false
+    },
+    {
+      "rank": 6,
+      "id": "0x6341c537a6fc563029d8e8caa87da37f227358f4",
+      "name": "Molandaks Mint Pass",
+      "symbol": "Pass",
+      "volume_30d": 149236.96401,
+      "volume_all_time": 1444806.13491,
+      "floor_price": 5997.0,
+      "token_count": "555",
+      "verified": true
+    },
+    {
+      "rank": 7,
+      "id": "0x413ff27448ba00ac2fecd66d98123c88dfe3d1cc",
+      "name": "Owlsmons",
+      "symbol": "Owlsmons",
+      "volume_30d": 148786.31829,
+      "volume_all_time": 175850.31829,
+      "floor_price": 12.5,
+      "token_count": "333",
+      "verified": false
+    },
+    {
+      "rank": 8,
+      "id": "0xde831ff665cff009d8c49f9c4cbc2ee14879a517",
+      "name": "CatsMintPass",
+      "symbol": "CatsMintPass",
+      "volume_30d": 139203.66476,
+      "volume_all_time": 514583.68871,
+      "floor_price": 11.99,
+      "token_count": "2222",
+      "verified": true
+    },
+    {
+      "rank": 9,
+      "id": "0x78a7c5dae2999e90f705def373cc0118d6f49378",
+      "name": "Yaiko Nads",
+      "symbol": "Yaiko Nads",
+      "volume_30d": 138866.21819,
+      "volume_all_time": 463756.24093,
+      "floor_price": 12.8,
+      "token_count": "2222",
+      "verified": true
+    },
+    {
+      "rank": 10,
+      "id": "0xc801937ba430be57318288aa9f9d39ec7729901b",
+      "name": "YaikoNftPass",
+      "symbol": "YaikoWaitlis",
+      "volume_30d": 135936.70011,
+      "volume_all_time": 135936.70011,
+      "floor_price": 11.0,
+      "token_count": "333",
+      "verified": false
+    }
+  ],
+  "statistics": {
+    "total_30d_volume": 6002918.17196999,
+    "total_all_time_volume": 39445337.73741009,
+    "verified_collections": 112,
+    "collections_with_floor_price": 732
+  }
+}

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="config.js"></script>
 </head>
 <body>
@@ -150,16 +151,69 @@
 
             <div id="dashboard" class="page">
                 <div class="dashboard-container">
-                    <div class="placeholder-panel glass-panel">
-                        <div class="placeholder-content">
-                            <div class="placeholder-icon">📊</div>
-                            <h2>Historical Data Dashboard</h2>
-                            <p>Coming Soon!</p>
-                            <div class="placeholder-features">
-                                <div class="feature">📈 Advanced Analytics</div>
-                                <div class="feature">🔍 Deep Insights</div>
-                                <div class="feature">📋 Custom Reports</div>
+                    <div class="dashboard-header">
+                        <h2>🕸️ Monad NFT Ecosystem Network</h2>
+                        <div class="dashboard-controls">
+                            <div class="control-group">
+                                <label for="collectionsLimit">Collections:</label>
+                                <select id="collectionsLimit" class="glass-input">
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="500">500</option>
+                                    <option value="1000" selected>1000</option>
+                                </select>
                             </div>
+                            <div class="control-group">
+                                <label for="minSharedHolders">Min Shared Holders:</label>
+                                <input type="range" id="minSharedHolders" min="5" max="50" value="10" class="slider">
+                                <span id="minSharedHoldersValue">10</span>
+                            </div>
+                            <div class="control-group">
+                                <input type="text" id="searchCollection" placeholder="Search collections..." class="glass-input search-input">
+                            </div>
+                            <button id="refreshNetwork" class="refresh-button">🔄 Refresh Network</button>
+                        </div>
+                        <div class="dashboard-status" id="dashboardStatus">Loading network...</div>
+                    </div>
+                    
+                    <div class="network-container">
+                        <div class="network-graph" id="networkGraph">
+                            <!-- Network visualization will be rendered here -->
+                        </div>
+                        
+                        <div class="collection-panel" id="collectionPanel">
+                            <div class="panel-header">
+                                <h3>Collection Details</h3>
+                                <button class="close-panel" id="closePanelBtn">×</button>
+                            </div>
+                            <div class="panel-content" id="panelContent">
+                                <p>Click on a collection node to see details</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="network-legend">
+                        <div class="legend-item">
+                            <div class="legend-node small"></div>
+                            <span>Small Collection</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-node medium"></div>
+                            <span>Medium Collection</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-node large"></div>
+                            <span>Large Collection</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-edge thin"></div>
+                            <span>Weak Connection</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-edge thick"></div>
+                            <span>Strong Connection</span>
                         </div>
                     </div>
                 </div>

@@ -670,4 +670,231 @@ class MonadVisualizer {
 
 document.addEventListener("DOMContentLoaded", () => {
   new MonadVisualizer();
+  initializeNFTDashboard();
 });
+
+// NFT Analytics Dashboard functionality
+function initializeNFTDashboard() {
+    // Load dashboard data when dashboard tab is activated
+    const dashboardTab = document.querySelector('[data-tab="dashboard"]');
+    if (dashboardTab) {
+        dashboardTab.addEventListener('click', loadNFTDashboard);
+    }
+    
+    // Add event listeners for controls
+    const refreshButton = document.getElementById('refreshNetwork');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', loadNFTDashboard);
+    }
+    
+    // Update shared holders value display
+    const minSharedHoldersSlider = document.getElementById('minSharedHolders');
+    const minSharedHoldersValue = document.getElementById('minSharedHoldersValue');
+    if (minSharedHoldersSlider && minSharedHoldersValue) {
+        minSharedHoldersSlider.addEventListener('input', (e) => {
+            minSharedHoldersValue.textContent = e.target.value;
+        });
+    }
+}
+
+async function loadNFTDashboard() {
+    const statusElement = document.getElementById('dashboardStatus');
+    
+    try {
+        statusElement.textContent = 'Loading network...';
+        statusElement.style.background = 'rgba(255, 165, 0, 0.1)';
+        statusElement.style.borderColor = 'rgba(255, 165, 0, 0.3)';
+        statusElement.style.color = '#ffaa00';
+        
+        // Get parameters from UI controls
+        const limit = document.getElementById('collectionsLimit').value || 1000;
+        const minSharedHolders = document.getElementById('minSharedHolders').value || 10;
+        
+        const response = await fetch(`${window.CONFIG.API_BASE_URL}/nft-network-graph?limit=${limit}&min_shared_holders=${minSharedHolders}`);
+        const result = await response.json();
+        
+        if (result.error) {
+            throw new Error(result.error);
+        }
+        
+        // Render the network graph
+        renderNetworkGraph(result);
+        statusElement.textContent = `Network loaded: ${result.graph.nodes.length} collections, ${result.graph.edges.length} connections`;
+        statusElement.style.background = 'rgba(0, 255, 0, 0.1)';
+        statusElement.style.borderColor = 'rgba(0, 255, 0, 0.3)';
+        statusElement.style.color = '#00ff88';
+        
+    } catch (error) {
+        console.error('Error loading NFT dashboard:', error);
+        statusElement.textContent = 'Error loading data';
+        statusElement.style.background = 'rgba(255, 0, 0, 0.1)';
+        statusElement.style.borderColor = 'rgba(255, 0, 0, 0.3)';
+        statusElement.style.color = '#ff4444';
+        
+        // Show error message in dashboard
+        showDashboardError(error.message);
+    }
+}
+
+function renderNetworkGraph(data) {
+    const networkContainer = document.getElementById('networkGraph');
+    if (!networkContainer) {
+        console.error('Network container not found');
+        return;
+    }
+    
+    // Clear existing content
+    networkContainer.innerHTML = '';
+    
+    // Set up dimensions
+    const width = networkContainer.clientWidth;
+    const height = networkContainer.clientHeight || 600;
+    
+    // Create SVG
+    const svg = d3.select(networkContainer)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+    
+    // Create graph data
+    const nodes = data.graph.nodes.map(d => ({...d}));
+    const edges = data.graph.edges.map(d => ({...d}));
+    
+    // Add defs for circular clipping paths
+    const defs = svg.append('defs');
+    
+    nodes.forEach(d => {
+        defs.append('clipPath')
+            .attr('id', `clip-${d.id.replace(/[^a-zA-Z0-9]/g, '')}`)
+            .append('circle')
+            .attr('r', d.size * 0.8);
+    });
+    
+    // Create force simulation with tighter clustering
+    const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(edges).id(d => d.id).distance(50))
+        .force('charge', d3.forceManyBody().strength(-100))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => d.size + 5));
+    
+    // Create edges
+    const link = svg.append('g')
+        .selectAll('line')
+        .data(edges)
+        .enter().append('line')
+        .attr('stroke', '#666')
+        .attr('stroke-opacity', 0.6)
+        .attr('stroke-width', d => Math.sqrt(d.weight / 10));
+    
+    // Create node groups (for image + circle)
+    const nodeGroup = svg.append('g')
+        .selectAll('g')
+        .data(nodes)
+        .enter().append('g')
+        .call(d3.drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended));
+    
+    // Add background circles
+    nodeGroup.append('circle')
+        .attr('r', d => d.size)
+        .attr('fill', d => d.verified ? '#00ff88' : '#ff6b6b')
+        .attr('stroke', '#fff')
+        .attr('stroke-width', 2)
+        .attr('opacity', 0.8);
+    
+    // Add collection images
+    nodeGroup.append('image')
+        .attr('href', d => d.image || '')
+        .attr('x', d => -d.size * 0.8)
+        .attr('y', d => -d.size * 0.8)
+        .attr('width', d => d.size * 1.6)
+        .attr('height', d => d.size * 1.6)
+        .attr('clip-path', d => `url(#clip-${d.id.replace(/[^a-zA-Z0-9]/g, '')})`)
+        .on('error', function(event, d) {
+            // Fallback if image fails to load - show collection symbol instead
+            d3.select(this).remove();
+            d3.select(this.parentNode).append('text')
+                .text(d => d.symbol || d.name.substring(0, 3))
+                .attr('text-anchor', 'middle')
+                .attr('dy', '0.35em')
+                .attr('font-size', `${d.size * 0.4}px`)
+                .attr('fill', '#fff')
+                .attr('font-weight', 'bold');
+        });
+    
+    // Add labels
+    const label = svg.append('g')
+        .selectAll('text')
+        .data(nodes)
+        .enter().append('text')
+        .text(d => d.name.length > 15 ? d.name.substring(0, 15) + '...' : d.name)
+        .attr('font-size', '8px')
+        .attr('fill', '#fff')
+        .attr('text-anchor', 'middle')
+        .attr('font-weight', 'bold')
+        .attr('text-shadow', '1px 1px 2px rgba(0,0,0,0.8)');
+    
+    // Add tooltips
+    nodeGroup.append('title')
+        .text(d => `${d.name}\nHolders: ${d.holders}\nVolume 30d: ${d.volume_30d}\nFloor: ${d.floor_price}`);
+    
+    // Update positions on simulation tick
+    simulation.on('tick', () => {
+        link
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
+        
+        nodeGroup
+            .attr('transform', d => `translate(${d.x},${d.y})`);
+        
+        label
+            .attr('x', d => d.x)
+            .attr('y', d => d.y + d.size + 15);
+    });
+    
+    // Drag functions
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+    
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+    
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+    
+    console.log(`Network graph rendered: ${nodes.length} nodes, ${edges.length} edges`);
+}
+
+// Old rendering functions removed - now using network graph visualization
+
+function showDashboardError(message) {
+    const container = document.querySelector('.dashboard-container');
+    container.innerHTML = `
+        <div style="text-align: center; padding: 3rem; color: #ff4444;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+            <h3>Error Loading Dashboard</h3>
+            <p style="margin: 1rem 0; opacity: 0.8;">${message}</p>
+            <button onclick="loadNFTDashboard()" style="
+                background: var(--monad-purple);
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                color: white;
+                cursor: pointer;
+                font-size: 0.9rem;
+            ">Retry</button>
+        </div>
+    `;
+}
