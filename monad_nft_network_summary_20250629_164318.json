@@ -1,0 +1,162 @@
+{
+  "generation_info": {
+    "timestamp": "2025-06-29T16:43:26.654832",
+    "generation_time_minutes": 276.1620188554128,
+    "collections_requested": 1000,
+    "min_shared_holders_threshold": 5
+  },
+  "network_stats": {
+    "total_nodes": 996,
+    "total_edges": 159342,
+    "avg_connections_per_collection": 319.96385542168673,
+    "network_density_percent": 32.1571713991645
+  },
+  "holder_stats": {
+    "total_collections_with_holders": 996,
+    "average_holders_per_collection": 19652.76204819277,
+    "max_holders": 1874311,
+    "min_holders": 1
+  },
+  "top_collections": [
+    {
+      "rank": 1,
+      "name": "Nad Name Service",
+      "holders": 1874311,
+      "influence": 9942989,
+      "verified": true
+    },
+    {
+      "rank": 2,
+      "name": "OMGart",
+      "holders": 1163402,
+      "influence": 271040,
+      "verified": false
+    },
+    {
+      "rank": 3,
+      "name": "Herb Genesis",
+      "holders": 704637,
+      "influence": 5144960,
+      "verified": false
+    },
+    {
+      "rank": 4,
+      "name": "overnads",
+      "holders": 556298,
+      "influence": 3692692,
+      "verified": true
+    },
+    {
+      "rank": 5,
+      "name": "MONAD",
+      "holders": 525241,
+      "influence": 5172646,
+      "verified": false
+    },
+    {
+      "rank": 6,
+      "name": "Monad ",
+      "holders": 489557,
+      "influence": 4451557,
+      "verified": false
+    },
+    {
+      "rank": 7,
+      "name": "Emmy on Monad!",
+      "holders": 359005,
+      "influence": 1851333,
+      "verified": true
+    },
+    {
+      "rank": 8,
+      "name": "MONAD KING",
+      "holders": 334026,
+      "influence": 3215084,
+      "verified": false
+    },
+    {
+      "rank": 9,
+      "name": "Testnet Juice",
+      "holders": 329574,
+      "influence": 3415784,
+      "verified": true
+    },
+    {
+      "rank": 10,
+      "name": "NFTs2Me Owners",
+      "holders": 281408,
+      "influence": 3463290,
+      "verified": true
+    },
+    {
+      "rank": 11,
+      "name": "Poply",
+      "holders": 273395,
+      "influence": 2339850,
+      "verified": false
+    },
+    {
+      "rank": 12,
+      "name": "Monad Lion",
+      "holders": 267064,
+      "influence": 2244298,
+      "verified": false
+    },
+    {
+      "rank": 13,
+      "name": "Community Member of Monad",
+      "holders": 252711,
+      "influence": 3343362,
+      "verified": false
+    },
+    {
+      "rank": 14,
+      "name": "Moncock OG",
+      "holders": 237880,
+      "influence": 3227248,
+      "verified": false
+    },
+    {
+      "rank": 15,
+      "name": "Kizzy Poap",
+      "holders": 223138,
+      "influence": 4984686,
+      "verified": false
+    },
+    {
+      "rank": 16,
+      "name": "Monad Poap",
+      "holders": 220593,
+      "influence": 4798254,
+      "verified": false
+    },
+    {
+      "rank": 17,
+      "name": "Levr.Bet Poap",
+      "holders": 220560,
+      "influence": 4716233,
+      "verified": false
+    },
+    {
+      "rank": 18,
+      "name": "AccountablePoap",
+      "holders": 214693,
+      "influence": 4890169,
+      "verified": false
+    },
+    {
+      "rank": 19,
+      "name": "Layer3 CUBE",
+      "holders": 214600,
+      "influence": 3411260,
+      "verified": true
+    },
+    {
+      "rank": 20,
+      "name": "MOANA Open Edition",
+      "holders": 213737,
+      "influence": 2632997,
+      "verified": false
+    }
+  ]
+}
